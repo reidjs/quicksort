@@ -41,7 +41,7 @@ class QuickSort
     pivot = array[start]
     length.times do |cnt|
       current_idx = start + cnt
-      byebug if array[current_idx].nil?
+      # byebug if array[current_idx].nil?
       if array[current_idx] < pivot
         array[barrier], array[current_idx] = array[current_idx], array[barrier]
         barrier += 1
@@ -51,10 +51,10 @@ class QuickSort
     barrier - 1 #return pivot index
   end
 end
-arr = [5, 3, 8, 1, 8, 12, 3, 4, 2, 5, 1, 12, 3, 1, 6]
-p arr
-QuickSort.sort2!(arr)
-p arr
+# arr = [5, 3, 8, 1, 8, 12, 3, 4, 2, 5, 1, 12, 3, 1, 6]
+# p arr
+# QuickSort.sort2!(arr)
+# p arr
 # arr = [4, 3, 2, 1, 7, 5, 8, 6]
 # pivot_idx = QuickSort.partition(arr, 4, 4)
 # p pivot_idx
