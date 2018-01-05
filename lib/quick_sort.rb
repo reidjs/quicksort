@@ -29,9 +29,9 @@ class QuickSort
     #   return array 
     # end
     if first < last
-      p_index = partition(array, first, last)
-      QuickSort.sort2!(array, first, p_index - 1)
-      QuickSort.sort2!(array, p_index + 1, last)
+      p_index = part(array, first, last, &prc)
+      QuickSort.sort2!(array, first, p_index - 1, &prc)
+      QuickSort.sort2!(array, p_index + 1, last, &prc)
     end 
     array
     # pivot_idx = partition(array, start, length, &prc)
@@ -43,7 +43,6 @@ class QuickSort
   end
 
   def self.partition(array, start, length, &prc)
-    byebug
     barrier = start + 1 #keep track of sorted elements (less than pivot)
     pivot = array[start]
     length.times do |cnt|
@@ -60,10 +59,11 @@ class QuickSort
 end
 
 
+
 #https://medium.com/@andrewsouthard1/quicksort-implementation-in-ruby-92de12470efd
 def quicksort(arr, first=0, last=arr.length-1)
   if first < last
-    p_index = partition(arr, first, last)
+    p_index = part(arr, first, last)
     quicksort(arr, first, p_index - 1)
     quicksort(arr, p_index + 1, last)
   end
@@ -71,7 +71,8 @@ def quicksort(arr, first=0, last=arr.length-1)
   arr
 end
 
-def partition(arr, first, last)
+def part(arr, first, last, &prc)
+  prc ||= Proc.new { |a, b| a <=> b }
   # first select one element from the list, can be any element. 
   # rearrange the list so all elements less than pivot are left of it, elements greater than pivot are right of it.
   pivot = arr[last]
@@ -79,7 +80,7 @@ def partition(arr, first, last)
   
   i = first
   while i < last
-    if arr[i] <= pivot
+    if prc.call(arr[i], pivot) <= 0
       temp = arr[i]
       arr[i] = arr[p_index]
       arr[p_index] = temp
