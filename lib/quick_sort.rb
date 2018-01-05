@@ -23,16 +23,16 @@ class QuickSort
 
   # In-place.
   def self.sort2!(array, start = 0, length = array.length, &prc)
-    # p array, length
+    p "a: #{array}, s: #{start}, l: #{length}"
     if length <= 1
-      p start, length 
+      # p start, length 
       return array 
     end 
-    # return array if length <= 1
     pivot_idx = QuickSort.partition(array, start, length, &prc)
-    # QuickSort.sort2!(array, 0, pivot_idx) #sort the left 
-    QuickSort.sort2!(array, pivot_idx + 1, array.length - pivot_idx - 1)
-    # array 
+    # if pivot_idx > 0
+    QuickSort.sort2!(array, start, pivot_idx - 1) #sort the left 
+    # byebug
+    QuickSort.sort2!(array, pivot_idx + 1, array.length - pivot_idx)
   end
 
   def self.partition(array, start, length, &prc)
@@ -51,7 +51,7 @@ class QuickSort
     barrier - 1 #return pivot index
   end
 end
-arr = [4,3,1,9,2,5,8,9]
+arr = [5, 3, 8, 1, 8, 12, 3, 4, 2, 5, 1, 12, 3, 1, 6]
 p arr
 QuickSort.sort2!(arr)
 p arr
