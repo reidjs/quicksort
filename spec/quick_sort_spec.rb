@@ -1,5 +1,5 @@
 require "quick_sort"
-
+require 'byebug'
 describe QuickSort do
   describe "partition" do
     it "partitions the whole array properly" do
@@ -44,6 +44,7 @@ describe QuickSort do
       # then num_comparisons = 10.
       # If pivot is swapped after iterating through the array,
       # then num_comparisons = 11.
+      # byebug
       expect([10, 11]).to include(num_comparisons)
 
     end

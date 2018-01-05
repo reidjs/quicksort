@@ -22,21 +22,28 @@ class QuickSort
   end
 
   # In-place.
-  def self.sort2!(array, start = 0, length = array.length, &prc)
-    p "a: #{array}, s: #{start}, l: #{length}"
-    if length <= 1
-      # p start, length 
-      return array 
+  def self.sort2!(array, first=0, last=array.length-1, &prc)
+    # p "a: #{array}, s: #{start}, l: #{length}"
+    # if length <= 1
+    #   # p start, length 
+    #   return array 
+    # end
+    if first < last
+      p_index = partition(array, first, last)
+      QuickSort.sort2!(array, first, p_index - 1)
+      QuickSort.sort2!(array, p_index + 1, last)
     end 
-    pivot_idx = QuickSort.partition(array, start, length, &prc)
-    # if pivot_idx > 0
-    QuickSort.sort2!(array, start, pivot_idx - 1) #sort the left 
-    # byebug
-    QuickSort.sort2!(array, pivot_idx + 1, array.length - pivot_idx)
+    array
+    # pivot_idx = partition(array, start, length, &prc)
+    # # if pivot_idx > 0
+    # # byebug
+    # QuickSort.sort2!(array, start, pivot_idx - 1) #sort the left 
+    # # byebug
+    # QuickSort.sort2!(array, pivot_idx + 1, array.length - pivot_idx)
   end
 
   def self.partition(array, start, length, &prc)
-    
+    byebug
     barrier = start + 1 #keep track of sorted elements (less than pivot)
     pivot = array[start]
     length.times do |cnt|
@@ -50,6 +57,40 @@ class QuickSort
     array[start], array[barrier-1] = array[barrier-1], array[start]
     barrier - 1 #return pivot index
   end
+end
+
+
+#https://medium.com/@andrewsouthard1/quicksort-implementation-in-ruby-92de12470efd
+def quicksort(arr, first=0, last=arr.length-1)
+  if first < last
+    p_index = partition(arr, first, last)
+    quicksort(arr, first, p_index - 1)
+    quicksort(arr, p_index + 1, last)
+  end
+
+  arr
+end
+
+def partition(arr, first, last)
+  # first select one element from the list, can be any element. 
+  # rearrange the list so all elements less than pivot are left of it, elements greater than pivot are right of it.
+  pivot = arr[last]
+  p_index = first
+  
+  i = first
+  while i < last
+    if arr[i] <= pivot
+      temp = arr[i]
+      arr[i] = arr[p_index]
+      arr[p_index] = temp
+      p_index += 1
+    end
+    i += 1
+  end
+  temp = arr[p_index]
+  arr[p_index] = pivot
+  arr[last] = temp
+  return p_index
 end
 # arr = [5, 3, 8, 1, 8, 12, 3, 4, 2, 5, 1, 12, 3, 1, 6]
 # p arr
